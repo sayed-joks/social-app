@@ -1,0 +1,10 @@
+loading-bar {
+  height: 3px;
+  background-color: #c3002f;
+  display: block;
+  position: fixed;
+  top: 56px; /* حسب ارتفاع الـ navbar */
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}

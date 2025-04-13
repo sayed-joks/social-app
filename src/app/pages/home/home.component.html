@@ -1,0 +1,292 @@
+<section class="w-[75%] lg:w-[60%] mx-auto">
+  <section
+    class="flex justify-center mb-6 bg-white dark:bg-gray-800 p-4 rounded-md"
+  >
+    <input
+      type="text"
+      data-modal-target="authentication-modal"
+      data-modal-toggle="authentication-modal"
+      id="default-input"
+      readonly
+      placeholder="What on your mind?"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    />
+    <hr />
+    <div></div>
+  </section>
+
+  <div
+    id="authentication-modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  >
+    <div class="relative p-4 w-[70%] max-h-full">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+        <!-- Modal header -->
+        <div
+          class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200"
+        >
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Add New Post
+          </h3>
+          <button
+            type="button"
+            class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            data-modal-hide="authentication-modal"
+          >
+            <svg
+              class="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class="p-4 md:p-5">
+          <form class="space-y-4" action="#">
+            <div>
+              <textarea
+                [(ngModel)]="content"
+                id="message"
+                rows="4"
+                name="files"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Write your Caption here..."
+              ></textarea>
+            </div>
+            <div>
+              <div class="flex items-center justify-center w-full">
+                <label
+                  for="dropzone-file"
+                  class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                >
+                  <div
+                    class="flex flex-col items-center justify-center pt-5 pb-6"
+                  >
+                    <svg
+                      class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 16"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                      />
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <span class="font-semibold">Click to upload</span> or drag
+                      and drop
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      SVG, PNG, JPG or GIF (MAX. 800x400px)
+                    </p>
+                  </div>
+                  <input
+                    id="dropzone-file"
+                    (change)="changeImage($event)"
+                    type="file"
+                    class="hidden"
+                  />
+                </label>
+              </div>
+            </div>
+            <button
+              (click)="addPost()"
+              type="submit"
+              class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Add Post
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="w-full">
+    <div class="flex flex-col gap-5 w-full">
+      @for (post of posts(); track post._id) {
+      <section
+        class="mx-auto flex flex-col gap-4 dark:bg-gray-800 rounded-md p-4 w-full"
+      >
+        <div class="flex flex-row gap-2">
+          <div>
+            <img
+              [src]="post.user.photo"
+              class="w-10 h-10 rounded-full"
+              alt=""
+            />
+          </div>
+          <div class="flex justify-between w-full">
+            <div>
+              <h2 class="dark:text-gray-300">{{ post.user.name }}</h2>
+              <p class="dark:text-gray-100">{{ post.createdAt | date }}</p>
+            </div>
+            <div>
+              <button
+                id="dropdownHoverButton"
+                data-dropdown-toggle="dropdownHover"
+                data-dropdown-trigger="hover"
+                class="text-white focus:outline-none font-medium rounded-lg text-sm text-center inline-flex items-center"
+                type="button"
+              >
+                <svg
+                  class="w-2.5 h-2.5 ms-3 text-black dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 4 4 4-4"
+                  />
+                </svg>
+              </button>
+
+              <!-- Dropdown menu -->
+              <div
+                id="dropdownHover"
+                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700"
+              >
+                <ul
+                  class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                  aria-labelledby="dropdownHoverButton"
+                >
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      >Dashboard</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      >Settings</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      >Earnings</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      >Sign out</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-4">
+          <div>
+            <p class="dark:text-gray-300">{{ post.body }}</p>
+          </div>
+          <div>
+            <img [src]="post.image" class="w-full rounded-md" alt="" />
+          </div>
+          <div>
+            <button
+              #comments
+              class="text-blue-600 hover:text-blue-900 self-start capitalize cursor-pointer"
+            >
+              View All Comments
+            </button>
+            @defer (on interaction(comments) ) {
+            <app-comments [postId]="post.id"></app-comments>
+            }@loading {
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <defs>
+                <filter id="svgSpinnersGooeyBalls20">
+                  <feGaussianBlur
+                    in="SourceGraphic"
+                    result="y"
+                    stdDeviation="1"
+                  />
+                  <feColorMatrix
+                    in="y"
+                    result="z"
+                    values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 18 -7"
+                  />
+                  <feBlend in="SourceGraphic" in2="z" />
+                </filter>
+              </defs>
+              <g filter="url(#svgSpinnersGooeyBalls20)">
+                <circle cx="5" cy="12" r="4" fill="currentColor">
+                  <animate
+                    attributeName="cx"
+                    calcMode="spline"
+                    dur="2s"
+                    keySplines=".36,.62,.43,.99;.79,0,.58,.57"
+                    repeatCount="indefinite"
+                    values="5;8;5"
+                  />
+                </circle>
+                <circle cx="19" cy="12" r="4" fill="currentColor">
+                  <animate
+                    attributeName="cx"
+                    calcMode="spline"
+                    dur="2s"
+                    keySplines=".36,.62,.43,.99;.79,0,.58,.57"
+                    repeatCount="indefinite"
+                    values="19;16;19"
+                  />
+                </circle>
+                <animateTransform
+                  attributeName="transform"
+                  dur="0.75s"
+                  repeatCount="indefinite"
+                  type="rotate"
+                  values="0 12 12;360 12 12"
+                />
+              </g>
+            </svg>
+            }
+          </div>
+        </div>
+      </section>
+      }
+    </div>
+  </section>
+  <div
+    class="my-scroll"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="300"
+    (scrolled)="loadMoreData()"
+  ></div>
+</section>
